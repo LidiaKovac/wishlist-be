@@ -13,10 +13,10 @@ module.exports = () =>
         clientID: GOOGLE_ID,
         clientSecret: GOOGLE_SECRET,
         callbackURL: "http://localhost:3001/api/user/callback",
-        passReqToCallback: true
+        passReqToCallback: true,
       },
       async function (req, accessToken, refreshToken, profile, cb) {
-        userSchema.find({ googleID: profile.id }, async(err, user) => {
+        userSchema.find({ googleID: profile.id }, async (err, user) => {
           if (user) {
             console.log("🌚 Passport initialized");
             //console.log(user);
@@ -31,10 +31,9 @@ module.exports = () =>
               });
               cb(err, user[0]);
             } else {
-            
               cb(err, user[0]);
             }
-            req.user = profile
+            req.user = profile;
           } else console.error(err);
         });
       }
