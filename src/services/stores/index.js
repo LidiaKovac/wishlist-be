@@ -51,7 +51,7 @@ store_route.get(
             let imageLink = meta[1].split('">')[0].split(".jpg")[0]
             console.log(imageLink);
             //console.log(imageLink);
-            res.status(200).send({ image: "https://" + imageLink.split(".jpg")[0] + ".jpg", store: "Shein", author: "6171d52268b69dc1059f2d55" });
+            res.status(200).send({ image: "https:" + imageLink.split(".jpg")[0] + ".jpg", store: "Shein", author: "6171d52268b69dc1059f2d55" });
           }
           if (detectedStore !== "shein" && detectedStore !== "aboutyou" && detectedStore !== "asos") {
             throw "Store does not exist";
