@@ -1,9 +1,9 @@
 require("dotenv").config();
 const Sequelize = require("sequelize");
 const { Query, Product } = require("./pg_schemas");
-const {SQL_URI} = process.env
+const {DATABASE_URL} = process.env
 
-const sequelize = new Sequelize(SQL_URI, {
+const sequelize = new Sequelize(DATABASE_URL, {
 	logging: false,
 	dialect: "postgres",
 	dialectOptions: {

@@ -80,7 +80,9 @@ store_route.get(
         const clothes = await Product.findAll({
           where: {
             QueryQueryId: query.query_id
-          }
+          },
+          limit: 100,
+          attributes: ['name', 'images', 'url']
         })
         res.status(201).send(clothes);
       })
