@@ -12,7 +12,7 @@ const store_route = require("./services/stores");
 const db = require("./utils/db")
 //configs
 require("dotenv").config();
-require("./utils")(); //runs passport
+require("./utils/passport")(); //runs passport
 
 
 const { PORT, MONGO_DB, SQL_URI } = process.env;

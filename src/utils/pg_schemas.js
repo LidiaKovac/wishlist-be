@@ -18,7 +18,7 @@ class Query extends Model {
       },
       {
         sequelize,
-        timestamps: true,
+        timestamps: false,
         modelName: "Queries",
       }
     );
@@ -52,7 +52,7 @@ class Product extends Model {
         },
         {
           sequelize,
-          timestamps: true,
+          timestamps: false,
           modelName: "Products",
         }
       );
