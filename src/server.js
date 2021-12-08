@@ -23,7 +23,7 @@ server.use(
     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
   })
 );
-app.options('*', cors(
+server.options('*', cors(
   {
     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
   }
