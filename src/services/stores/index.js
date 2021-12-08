@@ -76,16 +76,19 @@ store_route.get(
       
         },
       });
-      qs.forEach(async query => {
-        const clothes = await Product.findAll({
+      let clothes = []
+      for(let query of qs) {
+        
+        const prod = await Product.findAll({
           where: {
             QueryQueryId: query.query_id
           },
           limit: 100,
-          attributes: ['name', 'images', 'url']
+          attributes: ['name', 'images', 'url', "prod_id"]
         })
-        return res.status(201).send(clothes);
-      })
+        clothes = [...clothes, ...prod]
+      }
+      res.status(201).send(clothes);
 
       
     } catch (e) {

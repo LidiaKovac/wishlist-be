@@ -22,10 +22,29 @@ user_route.get(
 
 user_route.get("/me", async(req,res,next)=> {
   try {
-    console.log(req._parsedUrl.query.split("=")[1]);
-    let user = await User.findById(req._parsedUrl.query.split("=")[1])
+    console.log(req.query.id);
+    let user = await User.findById(req.query.id)
     console.log(user);
     res.send(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+user_route.put("/favs", async(req,res,next) => { // /favs?action=add&id=USER_ID from cookies
+  try {
+    if(req.query.id) { //only if logged in
+      if(req.query.action === "add") {
+        let user = await User.findById(req.query.id)
+        user.favs = [...user.favs, req.body.prod_id]
+        await user.save()
+        res.send(user)
+      }
+      else {
+  
+      }
+    } else res.status(401)
+    
   } catch (error) {
     next(error)
   }
