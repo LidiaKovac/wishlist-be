@@ -84,7 +84,7 @@ store_route.get(
           limit: 100,
           attributes: ['name', 'images', 'url']
         })
-        res.status(201).send(clothes);
+        return res.status(201).send(clothes);
       })
 
       
