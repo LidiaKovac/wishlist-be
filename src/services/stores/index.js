@@ -2,14 +2,16 @@ const store_route = require("express").Router();
 const axios = require("axios");
 const { Op } = require("sequelize");
 const { Response } = require("../../utils");
+const { sequelize } = require("../../utils/db");
+const { QueryTypes } = require('sequelize');
 const { Query, Product } = require("../../utils/pg_schemas");
 
 store_route.get(
   "/:q",
   /* checkLogged(), */ async (req, res, next) => {
     try {
-      const passedQuery = req.params.q.toLowerCase();
-      console.log(passedQuery);
+      let passedQuery = req.params.q.toLowerCase()
+      
       //check if query is similar to something already existing ✅
       //if it exists => return products in db
       //if it doesn't exist => scrape
@@ -33,6 +35,12 @@ store_route.get(
         })
         //res.send(clothes)
       }
+      if(!passedQuery.includes(" ")) {
+        passedQuery = passedQuery.slice(0, -1) //deletes last letter of query
+      } else {
+        passedQuery = passedQuery.split(" ")[0].slice(0, -1) + " " + passedQuery.split(" ")[1];
+      }
+      console.log(passedQuery);
       const queries = await Query.findAll({
         //in any case, get the list of queries
         where: {
@@ -60,12 +68,13 @@ store_route.get(
       const qs = await Query.findAll({
         //fetches updated list of queries, is there a way to avoid this?
         where: {
-          [Op.or]: !passedQuery.includes(" ")
+          [Op.and]: !passedQuery.includes(" ")
           ? [
-              { query: { [Op.substring]: passedQuery } },
-              { query: { [Op.like]: passedQuery } },
+              // { query: { [Op.substring]: passedQuery } },
+              // { query: { [Op.like]: passedQuery } },
               { query: { [Op.startsWith]: passedQuery } },
-              { query: passedQuery },
+              { query: {[Op.notRegexp]: "[\\s]"}},
+              // { query: passedQuery },
             ]
           : [
               { query: { [Op.substring]: passedQuery.split(" ")[0] } },
@@ -73,12 +82,11 @@ store_route.get(
               { query: { [Op.startsWith]: passedQuery.split(" ")[0] } },
               { query: passedQuery.split(" ")[0] },
             ],
-      
         },
       });
       let clothes = []
       for(let query of qs) {
-        
+        console.log(query.dataValues);
         const prod = await Product.findAll({
           where: {
             QueryQueryId: query.query_id
