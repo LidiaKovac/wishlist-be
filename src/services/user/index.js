@@ -33,22 +33,33 @@ user_route.get("/me", async(req,res,next)=> {
 
 user_route.put("/favs", async(req,res,next) => { // /favs?action=add&id=USER_ID from cookies
   try {
-    if(req.query.id) { //only if logged in
+    if(req.query.id && req.query.action) { //only if logged in
+      let user = await User.findById(req.query.id)
       if(req.query.action === "add") {
-        let user = await User.findById(req.query.id)
         user.favs = [...user.favs, req.body.prod_id]
-        await user.save()
-        res.send(user)
       }
       else {
-  
+        user.favs = user.favs.filter(fav => fav !== req.body.prod_id)
       }
-    } else res.status(401)
+      await user.save()
+      res.send(user)
+    } else res.send({message: "id and action are both mandatory queries"})
     
   } catch (error) {
     next(error)
   }
 })
+user_route.get("/favs", async(req,res,next) => { // /favs?id=USER_ID
+  try {
+    if(req.query.id) {
+      let user = await User.findById(req.query.id)
+      user.favs ? res.status(200).send({favs: user.favs}) : res.status(404).send({message: "user not found or favs not found"})
+    } else res.send({message: "id is a required query"})
+  } catch (error) {
+      next(error)
+  }
+})
+
 
 
 module.exports = user_route;
