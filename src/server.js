@@ -20,9 +20,14 @@ const server = express();
 
 server.use(
   cors({
-    origin: ["http://localhost:3000/", "http://localhost:3001/"],
+    origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
   })
 );
+app.options('*', cors(
+  {
+    origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
+  }
+))
 server.use(express.json());
 server.use(passport.initialize());
 
