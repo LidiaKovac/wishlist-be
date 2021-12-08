@@ -19,15 +19,17 @@ const { PORT, MONGO_DB, SQL_URI } = process.env;
 const server = express();
 
 server.use(
-  cors({
-    origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
-  })
+  cors(
+  //   {
+  //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
+  // }
+  )
 );
-server.options('*', cors(
-  {
-    origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
-  }
-))
+// server.options('*', cors(
+//   {
+//     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
+//   }
+// ))
 server.use(express.json());
 server.use(passport.initialize());
 
