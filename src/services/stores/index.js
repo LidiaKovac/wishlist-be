@@ -11,12 +11,6 @@ store_route.get(
   /* checkLogged(), */ async (req, res, next) => {
     try {
       let passedQuery = req.params.q.toLowerCase()
-      
-      //check if query is similar to something already existing ✅
-      //if it exists => return products in db
-      //if it doesn't exist => scrape
-      //check if the exact query exists
-      //get the list of related queries
       const exactQ = await Query.findOne({
         //get exact query
         where: {
@@ -38,7 +32,7 @@ store_route.get(
       if(!passedQuery.includes(" ")) {
         passedQuery = passedQuery.slice(0, -1) //deletes last letter of query
       } else {
-        passedQuery = passedQuery.split(" ")[0].slice(0, -1) + " " + passedQuery.split(" ")[1];
+        // passedQuery = passedQuery.split(" ")[0].slice(0, -1) + " " + passedQuery.split(" ")[1];
       }
       console.log(passedQuery);
       const queries = await Query.findAll({
@@ -68,13 +62,13 @@ store_route.get(
       const qs = await Query.findAll({
         //fetches updated list of queries, is there a way to avoid this?
         where: {
-          [Op.and]: !passedQuery.includes(" ")
+          [Op.or]: !passedQuery.includes(" ")
           ? [
               // { query: { [Op.substring]: passedQuery } },
               // { query: { [Op.like]: passedQuery } },
               { query: { [Op.startsWith]: passedQuery } },
               { query: {[Op.notRegexp]: "[\\s]"}},
-              // { query: passedQuery },
+              { query: passedQuery },
             ]
           : [
               { query: { [Op.substring]: passedQuery.split(" ")[0] } },
@@ -85,6 +79,7 @@ store_route.get(
         },
       });
       let clothes = []
+      
       for(let query of qs) {
         console.log(query.dataValues);
         const prod = await Product.findAll({
