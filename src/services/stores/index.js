@@ -1,7 +1,7 @@
 const store_route = require("express").Router();
 const axios = require("axios");
 const { Op } = require("sequelize");
-const { Response } = require("../../utils");
+const { Response, convertImages } = require("../../utils");
 const { sequelize } = require("../../utils/db");
 const { QueryTypes } = require('sequelize');
 const { Query, Product } = require("../../utils/pg_schemas");
@@ -34,7 +34,7 @@ store_route.get(
       } else {
         // passedQuery = passedQuery.split(" ")[0].slice(0, -1) + " " + passedQuery.split(" ")[1];
       }
-      console.log(passedQuery);
+      
       const queries = await Query.findAll({
         //in any case, get the list of queries
         where: {
@@ -81,7 +81,7 @@ store_route.get(
       let clothes = []
       
       for(let query of qs) {
-        console.log(query.dataValues);
+        
         const prod = await Product.findAll({
           where: {
             QueryQueryId: query.query_id
@@ -91,6 +91,10 @@ store_route.get(
         })
         clothes = [...clothes, ...prod]
       }
+      clothes = clothes.map(piece => {return {
+        ...piece.dataValues, 
+        images: convertImages(piece.images)
+      }})
       res.status(201).send(clothes);
 
       
