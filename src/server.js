@@ -19,13 +19,13 @@ const server = express();
 
 server.use(
   cors(
-    { credentials: true, exposedHeaders: ["set-cookie"] }
+    { credentials: true, exposedHeaders: ["set-cookie"], origin:[new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]  }
     //   {
     //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
     // }
   )
 );
-server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"] }))
+server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"], origin:[new URL("http://localhost:3000/"), new URL("http://localhost:3001/")] }))
 //   {
 //     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
 //   }
