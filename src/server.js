@@ -17,31 +17,7 @@ require("./utils/passport")(); //runs passport
 const { PORT, MONGO_DB, SQL_URI } = process.env;
 const server = express();
 
-server.use(
-  cors(
-    { credentials: true, exposedHeaders: ["set-cookie"], origin:[new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]  }
-    //   {
-    //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
-    // }
-  )
-);
-server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"], origin:[new URL("http://localhost:3000/"), new URL("http://localhost:3001/")] }))
-//   {
-//     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
-//   }
-// ))
-server.use(session({
-  name: "wishlist_be",
-  secret: "wLSmkOKsUh0H7Q8BDAzeA62OeBSgvw8pDzmmhBJWWyucKfaEazWRg2sztoQz5Tnl8tD1dfly0XpYevxql4QtD0kLAMmk5ElHlRXa",
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-      path: "/",
-      secure: true,
-      //domain: ".herokuapp.com", REMOVE THIS HELPED ME (I dont use a domain anymore)
-      httpOnly: true
-  }
-}));
+server.use(cors())
 server.use(express.json());
 server.use(passport.initialize());
 

@@ -8,14 +8,8 @@ user_route.get("/google", passport.authenticate("google", { scope: ["profile"] }
 
 user_route.get("/callback", passport.authenticate("google", { failureRedirect: "http://localhost:3000/login" }), async (req, res, next) => {
   try {
-    res.cookie("USER_id", req.user.id, {
-      maxAge: 172800000,
-      sameSite: false,
-      httpOnly: false,
-      path: "*/*"
-    });
     //cookies expires in two days
-    res.redirect("http://localhost:3000/");
+    res.redirect("http://localhost:3000/?id=" + req.user.id);
   } catch (error) {
     next(error);
   }
@@ -23,7 +17,7 @@ user_route.get("/callback", passport.authenticate("google", { failureRedirect: "
 
 user_route.get("/me", async (req, res, next) => {
   try {
-    
+   
     let user = await User.findById(req.query.id);
     
     res.send(user);
