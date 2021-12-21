@@ -10,6 +10,8 @@ user_route.get("/callback", passport.authenticate("google", { failureRedirect: "
   try {
     res.cookie("USER_id", req.user.id, {
       maxAge: 172800000,
+      sameSite: false,
+      httpOnly: false
     });
     //cookies expires in two days
     res.redirect("http://localhost:3000/");
