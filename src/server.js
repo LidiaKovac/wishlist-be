@@ -30,6 +30,14 @@ server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"], or
 //     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
 //   }
 // ))
+server.use(session({
+  cookie: {
+      path: "/",
+      secure: true,
+      //domain: ".herokuapp.com", REMOVE THIS HELPED ME (I dont use a domain anymore)
+      httpOnly: true
+  }
+}));
 server.use(express.json());
 server.use(passport.initialize());
 
