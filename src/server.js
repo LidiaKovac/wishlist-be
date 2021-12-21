@@ -31,6 +31,10 @@ server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"], or
 //   }
 // ))
 server.use(session({
+  name: "wishlist_be",
+  secret: "wLSmkOKsUh0H7Q8BDAzeA62OeBSgvw8pDzmmhBJWWyucKfaEazWRg2sztoQz5Tnl8tD1dfly0XpYevxql4QtD0kLAMmk5ElHlRXa",
+  resave: false,
+  saveUninitialized: true,
   cookie: {
       path: "/",
       secure: true,
