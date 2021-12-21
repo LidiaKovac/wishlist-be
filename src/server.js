@@ -8,24 +8,24 @@ const passport = require("passport");
 //routes
 const user_route = require("./services/user");
 const store_route = require("./services/stores");
-//dbs 
-const db = require("./utils/db")
+//dbs
+const db = require("./utils/db");
 //configs
 require("dotenv").config();
 require("./utils/passport")(); //runs passport
-
 
 const { PORT, MONGO_DB, SQL_URI } = process.env;
 const server = express();
 
 server.use(
   cors(
-  //   {
-  //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
-  // }
+    { credentials: true, exposedHeaders: ["set-cookie"] }
+    //   {
+    //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
+    // }
   )
 );
-// server.options('*', cors(
+server.options('*', cors({ credentials: true, exposedHeaders: ["set-cookie"] }))
 //   {
 //     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
 //   }
