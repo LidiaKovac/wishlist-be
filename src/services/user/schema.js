@@ -16,6 +16,11 @@ const userSchema = new Schema({
     favs: {
         type:Array,
         required: false
+    },
+    preferences: {
+        type: String,
+        enum: ['masc', 'fem', 'fluid'],
+        default: 'fluid'
     }
 })
 

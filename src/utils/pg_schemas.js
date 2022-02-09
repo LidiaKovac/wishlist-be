@@ -1,30 +1,6 @@
 const { STRING, INTEGER, Model, ARRAY } = require("sequelize")
 
-class Query extends Model {
-  static initialize(sequelize) {
-    this.init(
-      {
-        query_id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: INTEGER,
-          unique: true,
-        },
-        query: {
-          type: STRING(50),
-          allowNull: false,
-        }
-      },
-      {
-        sequelize,
-        timestamps: false,
-        modelName: "Queries",
-      }
-    );
-    
-  }
-}
+
 
 class Product extends Model {
     static initialize(sequelize) {
@@ -32,9 +8,8 @@ class Product extends Model {
         {
           prod_id: {
             allowNull: false,
-            autoIncrement: true,
             primaryKey: true,
-            type: INTEGER,
+            type: STRING(100),
             unique: true,
           },
           name: {
