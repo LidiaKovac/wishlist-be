@@ -3,36 +3,28 @@ const express = require("express");
 const cors = require("cors");
 const endpoints = require("express-list-endpoints");
 const mongoose = require("mongoose");
-const cron = require("node-cron")
 
+const session = require("express-session")
 const passport = require("passport");
+
 //routes
 const user_route = require("./services/user");
 const store_route = require("./services/stores");
-//dbs 
+
+//dbs
 const db = require("./utils/db");
+
 const axios = require("axios");
 const { scheduleJob } = require("node-schedule");
+
 //configs
 require("dotenv").config();
 require("./utils/passport")(); //runs passport
 
-
 const { PORT, MONGO_DB, SQL_URI } = process.env;
 const server = express();
 
-server.use(
-  cors(
-  //   {
-  //   origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")],
-  // }
-  )
-);
-// server.options('*', cors(
-//   {
-//     origin: [new URL("http://localhost:3000/"), new URL("http://localhost:3001/")]
-//   }
-// ))
+server.use(cors())
 server.use(express.json());
 server.use(passport.initialize());
 
