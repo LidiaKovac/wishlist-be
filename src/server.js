@@ -31,7 +31,7 @@ server.use(passport.initialize());
 server.use("/api/user", user_route);
 server.use("/api/store", store_route);
 
-console.log(cron.validate('* * * * *'))
+
 /* scheduleJob('* * * * *', ()=> {
   axios.get("http://localhost:3001/api/store").then(({data})=> console.log(data)).catch(e => console.log(e))
 }) */
