@@ -20,7 +20,6 @@ models.forEach((model) => {
 	model.initialize(sequelize)
 })
 
-Query.hasMany(Product)
-Product.belongsToMany(Query, {through: "ProdQuery"})
+
 
 module.exports = {sequelize};
