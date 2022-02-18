@@ -3,13 +3,15 @@ const express = require("express");
 const cors = require("cors");
 const endpoints = require("express-list-endpoints");
 const mongoose = require("mongoose");
+const cron = require("node-cron")
 
 const passport = require("passport");
 //routes
 const user_route = require("./services/user");
 const store_route = require("./services/stores");
 //dbs 
-const db = require("./utils/db")
+const db = require("./utils/db");
+const { axios } = require("axios");
 //configs
 require("dotenv").config();
 require("./utils/passport")(); //runs passport
@@ -35,6 +37,14 @@ server.use(passport.initialize());
 
 server.use("/api/user", user_route);
 server.use("/api/store", store_route);
+
+
+cron.schedule(' * * * * *', ()=> {
+  axios.get("/api/store").then(({data})=> console.log(data)).catch(e => console.log(e))
+})
+// cron.schedule('0 0 7,14 * *', ()=> {
+//   await axios.get("/api/store")
+// })
 
 //user connection
 mongoose

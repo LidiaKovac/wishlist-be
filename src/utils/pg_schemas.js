@@ -37,6 +37,11 @@ class Product extends Model {
             type: INTEGER,
             unique: true,
           },
+          internal_id: {
+            allowNull: false,
+            type: STRING(100),
+            // unique: true
+          },
           name: {
             type: STRING(300),
             allowNull: false,
