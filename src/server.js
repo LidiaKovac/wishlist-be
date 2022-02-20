@@ -4,7 +4,7 @@ const cors = require("cors");
 const endpoints = require("express-list-endpoints");
 const mongoose = require("mongoose");
 
-const session = require("express-session")
+
 const passport = require("passport");
 
 //routes
@@ -31,10 +31,6 @@ server.use(passport.initialize());
 server.use("/api/user", user_route);
 server.use("/api/store", store_route);
 
-
-/* scheduleJob('* * * * *', ()=> {
-  axios.get("http://localhost:3001/api/store").then(({data})=> console.log(data)).catch(e => console.log(e))
-}) */
 
 scheduleJob('0 0 7,14 * *', ()=> {
   //on the 7th and onthe 14th of each month
