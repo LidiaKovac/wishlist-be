@@ -12,7 +12,7 @@ module.exports = () =>
       {
         clientID: GOOGLE_ID,
         clientSecret: GOOGLE_SECRET,
-        callbackURL: "http://localhost:3001/api/user/callback",
+        callbackURL: "https://wishlist-be-api.herokuapp.com/api/user/callback",
         passReqToCallback: true,
       },
       async function (req, accessToken, refreshToken, profile, cb) {
