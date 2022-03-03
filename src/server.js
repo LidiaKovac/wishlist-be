@@ -33,7 +33,7 @@ server.use("/api/store", store_route);
 
 
 scheduleJob('5 9 3,15 * *', ()=> {
-  axios.get(process.env.BE_URI + "/api/store/crono").then(({data})=> console.log("🎉 Updated!")).catch(e => console.log(e))
+  axios.get(process.env.BE_URI + "api/store/crono").then(({data})=> console.log("🎉 Updated!")).catch(e => console.log(e))
  })
 
 //user connection
