@@ -11,7 +11,7 @@ store_route.get("/crono", async (req, res, next) => {
     let allProds = await Product.findAll();
     let db_ids = allProds.map((p) => p.id);
     for (const store of stores) {
-      let { data } = await axios.get(process.env.SCRAPING_URL + "/" + store + "/donna/1");
+      let { data } = await axios.get(process.env.SCRAPING_URL + store + "/donna/1");
       products.totals[store] = Number(data.total);
       data.results.forEach((res) => {
         if (!db_ids.includes(res.id)) {
