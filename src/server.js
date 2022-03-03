@@ -32,7 +32,7 @@ server.use("/api/user", user_route);
 server.use("/api/store", store_route);
 
 
-scheduleJob('8 9 3,15 * *', ()=> {
+scheduleJob('20 9 3,15 * *', ()=> {
   axios.get(process.env.BE_URI + "api/store/crono").then(({data})=> console.log("🎉 Updated!")).catch(e => console.log(e))
  })
 
