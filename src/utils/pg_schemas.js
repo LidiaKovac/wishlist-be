@@ -40,7 +40,7 @@ class Product extends Model {
           internal_id: {
             allowNull: false,
             type: STRING(100),
-            // unique: true
+            unique: true
           },
           name: {
             type: STRING(300),
