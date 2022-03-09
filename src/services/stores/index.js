@@ -9,22 +9,30 @@ store_route.get("/scrape", async (req, res, next) => {
     let products = { totals: {}, pieces: [] };
     let stores = ["asos", "aboutyou", "shein", "hm", "subdued", "ovs"];
     for (const store of stores) {
-      let { data } = await axios.get(process.env.SCRAPING_URL + store + "/donna/1");
+      let { data } = await axios.get("http://127.0.0.1:5000/" + store + "/donna/1");
       products.totals[store] = Number(data.total);
       data.results.forEach(async(res) => {
         await Product.findCreateFind({where: {
-          internal_id: res.internal_id
+          internal_id: res.internal_id,
+          name: res.title,
+          url: res.url,
+          images: String(res.images)
+
         }})
       });
       let pages = Number(data.total.replaceAll(".", "")) / Number(data.results.length);
-      console.log("⚙️" + store + "has " + pages + "pages!");
+      console.log("⚙️    " + store + " has " + pages + "pages!");
       for (let i = 2; i < pages; i++) {
-        console.log("⚙️" + "scraping page " + i);
+        console.log("⚙️    scraping page " + i);
 
-        let { data } = await axios.get(process.env.SCRAPING_URL + "/" + store + "/donna/" + i);
-        data.results.forEach((res) => {
+        let { data } = await axios.get("http://127.0.0.1:5000/" + store + "/donna/" + i);
+        data.results.forEach(async(res) => {
           await Product.findCreateFind({where: {
-            internal_id: res.internal_id
+            internal_id: res.internal_id,
+            name: res.title,
+            url: res.url,
+            images: String(res.images)
+
           }})
         });
       }
