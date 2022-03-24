@@ -6,7 +6,7 @@ class Response {
 }
 
 const convertStringInArray = (string) => {
-    return string.split(",").map(img => img.replace("wid=40", "wid=600"))
+    return string.split(",").map(img => img.replace("wid=40", "wid=1000"))
 }
 
 module.exports = {

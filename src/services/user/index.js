@@ -17,9 +17,8 @@ user_route.get("/callback", passport.authenticate("google", { failureRedirect: "
 
 user_route.get("/me", async (req, res, next) => {
   try {
-   
     let user = await User.findById(req.query.id);
-    
+
     res.send(user);
   } catch (error) {
     next(error);
@@ -33,7 +32,9 @@ user_route.put("/favs", async (req, res, next) => {
       //only if logged in
       let user = await User.findById(req.query.id);
       if (req.query.action === "add") {
-        user.favs = [...user.favs, req.body.prod_id];
+        let newFavs = [...user.favs, req.body.prod_id];
+        let uniqueFavs = new Set(newFavs)
+        user.favs = [...uniqueFavs]
       } else {
         user.favs = user.favs.filter((fav) => fav !== req.body.prod_id);
       }
@@ -50,24 +51,14 @@ user_route.get("/favs", async (req, res, next) => {
   try {
     if (req.query.id) {
       let { favs } = await User.findById(req.query.id);
-
-      let promiseArray = favs.map((fav) => {
-        return Product.findOne({
-          where: {
-            prod_id: fav,
-          },
-          attributes: ["prod_id", "name", "url", "images"],
-        });
-      });
-
-      let populatedFavs = await Promise.all(promiseArray);
-      populatedFavs = populatedFavs.map((fav) => {
+      let getAllFavs = favs.map((fav)=> Product.findByPk(fav))
+      let rawFavs = await Promise.all(getAllFavs)
+      let populatedFavs = rawFavs.map(f => {
         return {
-          ...fav.dataValues,
-          images: convertImages(fav.images),
-        };
-      });
-
+          ...f,
+          images: convertImages(f.images)
+        }
+      })
       populatedFavs ? res.status(200).send({ favs: populatedFavs }) : res.status(404).send({ message: "user not found or favs not found" });
     } else res.send({ message: "id is a required query" });
   } catch (error) {

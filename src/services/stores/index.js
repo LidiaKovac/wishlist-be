@@ -52,7 +52,7 @@ store_route.get(
         where: query
           ? {
               name: {
-                [Op.substring]: query,
+                  [Op.iLike]:  `%${query}%`,
               },
             }
           : {},
@@ -63,6 +63,20 @@ store_route.get(
         prod.images = prod.images.replaceAll("wid=40", "wid=1000").split(",");
       });
       res.status(200).send({ products: allProds });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+store_route.get(
+  "/:id",
+  /* checkLogged(), */ async (req, res, next) => {
+    try {
+      let { id } = req.params;
+      let prod = await Product.findByPk(id);
+
+      res.status(200).send({ products: prod });
     } catch (e) {
       next(e);
     }
