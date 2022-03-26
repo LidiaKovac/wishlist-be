@@ -74,9 +74,10 @@ store_route.get(
   /* checkLogged(), */ async (req, res, next) => {
     try {
       let { id } = req.params;
-      let prod = await Product.findByPk(id);
-
-      res.status(200).send({ products: prod });
+      let {dataValues: prod} = await Product.findByPk(id);
+      console.log(prod);
+      let prodWithImages = {...prod, images: prod.images.replaceAll("wid=40", "wid=1000").split(",") }
+      res.status(200).send(prodWithImages);
     } catch (e) {
       next(e);
     }
