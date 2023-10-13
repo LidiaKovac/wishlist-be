@@ -56,4 +56,4 @@ mongoose
     console.log("❌ CONNECTION FAILED! Error: ", e);
   });
 
-module.exports = server;
+module.exports = server
